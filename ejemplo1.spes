@@ -3,6 +3,6 @@ library graph;
 
 class caso1;
 	main ()
-		write("Curso: Lenguajes y Autómatas I");
+		write("Curso: Lenguajes y Automatas I");
 	endmain
 endclass

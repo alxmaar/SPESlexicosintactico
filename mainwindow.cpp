@@ -49,7 +49,8 @@ QString palabrasreservadas[] = {"class",//1003
                                 "local",//1014
                                 "endlocal",//1015
                                 "return",//1038
-                                "void"};//1067
+                                "void",//1067
+                               "to"};
 int numPalabrasReservadas[]={1003,
                              1005,
                              1062,
@@ -83,7 +84,8 @@ int numPalabrasReservadas[]={1003,
                              1014,
                              1015,
                              1038,
-                             1067};
+                             1067,
+                             1026};
 QString TextoCortado;
 
 int Matriz[28][31]=
@@ -177,7 +179,7 @@ int MatrizPredictiva[57][72]=
     {600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,109,110,111,112,113,114,600,600,600,600},
     {600,600,600,600,118,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,115,116,117,118},
     {600,600,600,600,51,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600},
-    {600,600,600,600,600,600,600,600,600,600,52,600,600,600,600,600,53,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,52},
+    {600,600,600,600,600,600,600,600,600,600,52,600,600,600,600,600,53,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,600,52}
 
 };
 int static producciones[119][12]
@@ -194,7 +196,7 @@ int static producciones[119][12]
             {-1},//10
             {7,123,53,1007,12},//11
         {-1},//12
-        {9,123,53,1007,12},//13
+        {1015,9,1014},//13
         {-1},//14
     {9,123,53,1007,12},//15
         {-1},//16
@@ -236,8 +238,8 @@ int static producciones[119][12]
             {1023,120,37,119,1022,17,1021},
             {1027,17,1021,37,1026,37,109,101,1024},
 
-            {1029,21,17,120,37,119,1028},
-            {23,25,17,120,37,119,1030},
+            {1029,22,17,120,37,119,1028},
+            {23,22,17,120,37,119,1030},
             {-1},
 
             {17,1031},
@@ -268,7 +270,7 @@ int static producciones[119][12]
 
             {1037,17,120,37,119,1036},
 
-            {37,1037},
+            {37,1038},
 
             {32,101},
 
@@ -303,7 +305,7 @@ int static producciones[119][12]
 
             {120,37,119},
 
-            {42,41},
+            {38,41},
 
             {38,41,118},
 
@@ -951,6 +953,8 @@ QString err;
 
 void errores(int e)
 {
+    QMessageBox errorbx;
+
     switch(e)
     {
     case 500:
@@ -998,6 +1002,9 @@ void errores(int e)
 
         error<<TextoCortado.trimmed();
         contadorerrores++; break;
+        errorbx.setText("ERROR, VERIFICA TU SINTAXIS");
+        errorbx.exec();
+
     }
 }
 
@@ -1011,7 +1018,7 @@ int AnalizarPalabraReservada(){
             contador++;
     }
     QString stringtemp = TextoCortado.mid(contador, TextoCortado.length());
-    for(int i=0;i<=33;i++)
+    for(int i=0;i<=34;i++)
     {
     if(stringtemp==palabrasreservadas[i])
     {
@@ -1211,7 +1218,7 @@ int ANALIZAR(QString cadena){
         for(int i=0;i<TextoCortado.length();i++){
 
             char caracter2=cadenadiv[i];
-          if((caracter2==' ' || caracter2=='\t' || caracter2==32 )&&((cadenadiv2[0]!=34) && (cadenadiv2[TextoCortado.length()]!=34)))
+          if((caracter2==' ' || caracter2=='\t' || caracter2==32 )&&((cadenadiv2[0]!=34) && (cadenadiv2[cadenadiv.length()]!=34))&&((cadenadiv2[2]!='/') && (cadenadiv2[TextoCortado.length()]!='/')))
               contador++;
         }
 
@@ -1498,66 +1505,66 @@ QString evaluaElemento(int token){
     case 94:return "$";
     case 1000:return "library";
     case 1001:return "Nombre_libreria";
-    case 1002: return " ;"  ;
+    case 123: return " ;"  ;
             case 1003: return "class "  ;
-            case 1004: return "id"  ;
+            case 101: return "id"  ;
             case 1005: return "endclass"  ;
             case 1006: return "def"  ;
             case 1007: return "as"  ;
             case 1008: return "main"  ;
-            case 1009: return " ("  ;
-            case 1010: return " )"  ;
+            case 119: return " ("  ;
+            case 120: return " )"  ;
             case 1011: return "endmain "  ;
             case 1012: return "func "  ;
             case 1013: return " endfunc"  ;
             case 1014: return " local"  ;
             case 1015: return "endlocal "  ;
-            case 1016: return ","  ;
-            case 1017: return "["  ;
-            case 1018: return "]"  ;
-            case 1019: return "cteentera"  ;
-            case 1020: return ".."  ;
+            case 124: return ","  ;
+            case 121: return "["  ;
+            case 122: return "]"  ;
+            case 102: return "cteentera"  ;
+            case 132: return ".."  ;
             case 1021: return "do "  ;
             case 1022: return "eval"  ;
             case 1023: return "enddo"  ;
             case 1024: return "for "  ;
-            case 1025: return "="  ;
+            case 109: return "="  ;
             case 1026: return "to"  ;
             case 1027: return "endfor "  ;
             case 1028: return "if"  ;
             case 1029: return "endif"  ;
             case 1030: return "elseif"  ;
             case 1031: return "else"  ;
-            case 1032: return "++"  ;
-            case 1033: return "--"  ;
+            case 129: return "++"  ;
+            case 130: return "--"  ;
             case 1034: return "read"  ;
             case 1035: return "write"  ;
             case 1036: return "while"  ;
             case 1037: return "endwhile"  ;
             case 1038: return "return"  ;
-            case 1039: return "*"  ;
-            case 1040: return "/"  ;
-          case 1041 : return "%"  ;
-        case 1042 : return "ctereal"  ;
-        case 1043 : return "ctenotacion"  ;
-        case 1044 : return "ctecaracter"  ;
-        case 1045 : return "ctestring"  ;
-        case 1046 : return "||"  ;
-        case 1047 : return "&&"  ;
-        case 1048 : return "!"  ;
-        case 1049 : return "+"  ;
-        case 1050 : return "-"  ;
-        case 1051 : return "=="  ;
-        case 1052 : return "!="  ;
-        case 1053 : return "<"  ;
-        case 1054 : return "<="  ;
-        case 1055 : return ">"  ;
-        case 1056 : return ">="  ;
-        case 1057 : return "+="  ;
-        case 1058 : return "-="  ;
-        case 1059 : return "*="  ;
-        case 1060 : return "/="  ;
-        case 1061 : return "%="  ;
+            case 107: return "*"  ;
+            case 108: return "/"  ;
+          case 128 : return "%"  ;
+        case 103 : return "ctereal"  ;
+        case 104 : return "ctenotacion"  ;
+        case 125 : return "ctecaracter"  ;
+        case 126 : return "ctestring"  ;
+        case 118 : return "||"  ;
+        case 117 : return "&&"  ;
+        case 116 : return "!"  ;
+        case 105 : return "+"  ;
+        case 106 : return "-"  ;
+        case 110 : return "=="  ;
+        case 115 : return "!="  ;
+        case 111 : return "<"  ;
+        case 112 : return "<="  ;
+        case 113 : return ">"  ;
+        case 114 : return ">="  ;
+        case  135: return "+="  ;
+        case 136 : return "-="  ;
+        case 137 : return "*="  ;
+        case 138 : return "/="  ;
+        case 139 : return "%="  ;
         case 1062 : return "int"  ;
         case 1063 : return "float"  ;
         case 1064 : return "char"  ;
@@ -1584,14 +1591,13 @@ void imprimePila(){
     for(int i = 0; i < pila.size(); i++){
         QString ele = evaluaElemento(pila.at(i));
          desPila += ele + " ";
-
     }
     desPila += "\n";
-
 }
 
 void Gramatica(){
     int token = 0, estadosin = 0, colsin = 0, filasin = 0;
+    bool xd=false;
     while(!pila.empty()){
         pila.pop();
     }
@@ -1600,18 +1606,29 @@ void Gramatica(){
     bool tokenValido = true, pilallena = true;
     imprimePila();
     while(estadosin < 500 && (token < 500||token>=1000) && !pila.empty()){
+       if(token==133)
+       {
+       token=ANALIZAR(texto);
+       xd=true;
+       }
+       xd=false;
         if((tokenValido)&&(texto!="^")){
+            if(!xd){
             token = ANALIZAR(texto);
+}
+
             tokenValido = false;
             if(TextoCortado=="^")
                 goto final;
         }
+
         if(pilallena){
             colsin = relacionaGramatica(token);
             filasin = pila.top();
 
             pila.pop();
             estadosin = MatrizPredictiva[filasin][colsin];
+
            if(estadosin==600){
                 errores(estadosin);
                 contadortokens--;
@@ -1619,6 +1636,7 @@ void Gramatica(){
             }
             llenarPilaProduccion(estadosin);
             pilallena = false;
+
             imprimePila();
         }
         if(pila.top() >= 100){
@@ -1629,9 +1647,12 @@ void Gramatica(){
                 }
                 imprimePila();
             }else{
+
                 QString tr = evaluaElemento(token);
                 QString tp = evaluaElemento(pila.top());
                 QMessageBox msgBox;
+                               msgBox.setText("Hay errores en la sintaxis");
+                               msgBox.setText("Hay errores en la sintaxis porque se esperaba un "+tp+" y se recibio un "+tr);
                 msgBox.exec();
                 break;
             }
@@ -1639,17 +1660,21 @@ void Gramatica(){
             if(estadosin>500){
                 errores(estadosin);
             }else{
-                if(pila.top() > 0 && pila.top() <= 72){
+                if(pila.top() > 0 && pila.top() <= 72&&estado!=133){
+
                     pilallena = true;
                 }
                 if(pila.top() == -1){
+
                     pila.pop();
                     imprimePila();
+
                 }
                 final:
                 if(pila.top() == '^'){
                     pila.pop();
                     imprimePila();
+
                     desPila+="end of file";
                     QMessageBox msgBox;
                     msgBox.setText("No hay errores");
@@ -1658,9 +1683,9 @@ void Gramatica(){
                 }
             }
         }
-
+        }
     }
-}
+
 void MainWindow::on_analizarbtn_clicked()
 {
         tokens.clear();
@@ -1698,7 +1723,6 @@ void MainWindow::on_analizarbtn_clicked()
           ui->tablaerrores->setItem(ui->tablaerrores->rowCount()-1, 0, new QTableWidgetItem(error[i]));
           ui->tablaerrores->setItem(ui->tablaerrores->rowCount()-1, 1, new QTableWidgetItem(desErrores[i]));
       }
-
       ui->txtPila->appendPlainText(desPila);
 
 }
