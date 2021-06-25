@@ -1,4 +1,4 @@
 # SPESlexicosintactico
 Saludos a la razita que la sigue cotorreando, 
-Instituto Tecnologico de Durango
-Materia: Lenguajes y Automatas I
+<br> Instituto Tecnologico de Durango
+<br> Materia: Lenguajes y Automatas I
